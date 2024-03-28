@@ -25,6 +25,7 @@ import { getYear, getMonth, getDay, getDayOfWeek } from "./days";
 
 function App() {
   const [count, setCount] = useState(0);
+  const  [id, setId] = useState(0);
   const [value, setValue] = useState("");
   const [date, setDate] = useState(
     getYear() + "-" + getMonth() + "-" + getDay()
@@ -32,6 +33,7 @@ function App() {
   const [time, setTime] = useState("00:00");
   const [mustWork, setMustWork] = useState("");
   const [memo, setMemo] = useState("");
+  const[workList, setWorkList] = useState([]);
   const dateChange = (e) => setDate(e.target.value);
   const ValueChange = (e) => setTime(e.target.value);
   const timeChange = (e) => setTime(e.target.value);
@@ -43,9 +45,14 @@ function App() {
     setMustWork("");
     setMemo("");
   };
+  const updateWorkLinst = () => {
+    setWorkList([...workList, {id:id, date:date, time:time, mustWork:mustWork, memo:memo}]);
+  }
   const save = () => {
     console.log(date, time, mustWork, memo);
-    
+    updateWorkLinst();
+    setId(id + 1);
+    cancel();
   }
   return (
     <>
@@ -95,6 +102,15 @@ function App() {
           </Box>
           <Box>{memo}</Box>
         </VStack>
+        <Box>
+          <VStack>
+            {workList.map((work) => (
+              <Box key={work.id}>
+                {work.date} {work.time} {work.mustWork}
+              </Box>
+            ))}
+          </VStack>
+        </Box>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
