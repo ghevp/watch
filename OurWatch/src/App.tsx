@@ -13,6 +13,11 @@ import {
   IconButton,
   ButtonGroup,
   VStack,
+  Card,
+  CardHeader,
+  CardBody,
+  Stack,
+  CardFooter,
 } from "@chakra-ui/react";
 import {
   PhoneIcon,
@@ -25,7 +30,7 @@ import { getYear, getMonth, getDay, getDayOfWeek } from "./days";
 
 function App() {
   const [count, setCount] = useState(0);
-  const  [id, setId] = useState(0);
+  const [id, setId] = useState(0);
   const [value, setValue] = useState("");
   const [date, setDate] = useState(
     getYear() + "-" + getMonth() + "-" + getDay()
@@ -33,7 +38,7 @@ function App() {
   const [time, setTime] = useState("00:00");
   const [mustWork, setMustWork] = useState("");
   const [memo, setMemo] = useState("");
-  const[workList, setWorkList] = useState([]);
+  const [workList, setWorkList] = useState([]);
   const dateChange = (e) => setDate(e.target.value);
   const ValueChange = (e) => setTime(e.target.value);
   const timeChange = (e) => setTime(e.target.value);
@@ -46,14 +51,17 @@ function App() {
     setMemo("");
   };
   const updateWorkLinst = () => {
-    setWorkList([...workList, {id:id, date:date, time:time, mustWork:mustWork, memo:memo}]);
-  }
+    setWorkList([
+      ...workList,
+      { id: id, date: date, time: time, mustWork: mustWork, memo: memo },
+    ]);
+  };
   const save = () => {
     console.log(date, time, mustWork, memo);
     updateWorkLinst();
     setId(id + 1);
     cancel();
-  }
+  };
   return (
     <>
       <IconButton
@@ -93,7 +101,7 @@ function App() {
           placeholder="メモ欄"
         ></Textarea>
         <ButtonGroup variant="outline" spacing="6">
-          <Button onClick={save} >Save</Button>
+          <Button onClick={save}>Save</Button>
           <Button onClick={cancel}>Cancel</Button>
         </ButtonGroup>
         <VStack>
@@ -103,20 +111,28 @@ function App() {
           <Box>{memo}</Box>
         </VStack>
         <Box>
-          <VStack>
+          <Stack spacing="4">
             {workList.map((work) => (
-              <Box key={work.id}>
-                {work.date} {work.time} {work.mustWork}
-              </Box>
+              <Card key={work.id}>
+                <CardHeader>
+                  {work.date} {work.time}{" "}
+                </CardHeader>
+                <CardBody>{work.mustWork}</CardBody>
+                <CardFooter>
+                  <Button colorScheme="blue" >View here</Button>
+                </CardFooter>
+              </Card>
             ))}
-          </VStack>
+          </Stack>
         </Box>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        copyRight © 2024 ぐゑ All Rights Reserved.
+        <br />
+        Released under the MIT License.
       </p>
     </>
   );
